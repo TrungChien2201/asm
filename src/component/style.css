@@ -1,0 +1,25 @@
+.body{
+    width: 400px;
+    margin-left: 33.33%;
+    margin-top: 50px;
+}
+.text{
+    float: left;
+    
+}
+.body .ant-input-number{
+    width: 100% !important;
+}
+.button{
+    margin-top: 20px;
+}
+.button1{
+    float: left;
+}
+.button2 {
+    margin-left: 256px;
+}
+.btn{
+    display: flex;
+    margin-top: 20px;
+}
