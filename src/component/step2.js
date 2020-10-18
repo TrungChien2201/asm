@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import { Button, Select, Form, Input } from 'antd';
 import './style.css';
 import { multiStepContext } from '../StepContext';
-import DataRestaurant from '../data/dishes.json';
+import DataRestaurants from '../data/dishes.json';
 
 
 const { Option } = Select
@@ -18,14 +18,25 @@ const validateMessages = {
 };
 function Step2() {
     const { setCurrent, data, setData } = useContext(multiStepContext);
+    console.log(data);
     const [form] = Form.useForm();
-    const Data2 = DataRestaurant.dishes;
+    let DataRestaurant = DataRestaurants.dishes;
+    let newDataRestaurant = [];
+    let dataNew = [];
+    newDataRestaurant = DataRestaurant.map((item) => item.restaurant);
+   
+    newDataRestaurant = newDataRestaurant.filter((item,index) =>{
+    return  newDataRestaurant.indexOf(item) === index;
+  });
+    console.log(newDataRestaurant);
+
     const onFinishs = () => {
         setCurrent(2)
     }
     useEffect(() => {
         form.setFieldsValue({ user: data })
-     }, [data,form])  
+       
+    }, [data, form])
     const handleChangeRestaurant = (e) => {
         setData({ ...data, restaurant: e })
     }
@@ -33,7 +44,7 @@ function Step2() {
         <div className='body'>
 
             <div>
-                <Form form={form}  name="nest-messages" onFinish={onFinishs} validateMessages={validateMessages}>
+                <Form form={form} name="nest-messages" onFinish={onFinishs} validateMessages={validateMessages}>
                     <Form.Item name={['user', 'restaurant']} label="Name" rules={[{ required: true }]}>
                         <Select
                             labelInValue='meal'
@@ -42,12 +53,12 @@ function Step2() {
                             onChange={handleChangeRestaurant}
                             value={data.Restaurant}
                         >
-                            {Data2 ? Data2.map((item,index)=>(
+                            {newDataRestaurant ? newDataRestaurant.map((item, index) => (
                                 <Fragment key={index}>
-                                    {item.availableMeals.includes(data.meal.value) === true ? <Option key={index} value={item.restaurant}>{item.restaurant}</Option>:''}
+                                    {newDataRestaurant.includes(data.meal.value)===true?<Option key={index} value={item}>{item}</Option>:''}
                                 </Fragment>
-                            )):''}
-                            
+                            )) : ''}
+
                         </Select>
                     </Form.Item>
                     <Form.Item className="mt-3 " wrapperCol={{ span: 5, offset: 4 }}>
